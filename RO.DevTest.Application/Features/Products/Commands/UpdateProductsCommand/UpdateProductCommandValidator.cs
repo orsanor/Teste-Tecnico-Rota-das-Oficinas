@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
-using RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 
-namespace RO.DevTest.Application.Features.Products.Commands.Validators;
+namespace RO.DevTest.Application.Features.Products.Commands.UpdateProductsCommand;
 
-public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
-    public CreateProductCommandValidator()
+    public UpdateProductCommandValidator()
     {
         RuleFor(p => p.Name)
             .NotEmpty()

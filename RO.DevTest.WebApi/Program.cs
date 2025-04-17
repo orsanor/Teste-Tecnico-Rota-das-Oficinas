@@ -1,10 +1,8 @@
 using FluentValidation;
 using RO.DevTest.Application;
-using RO.DevTest.Application.Features.Products;
 using RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.DeleteProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.UpdateProductsCommand;
-using RO.DevTest.Application.Features.Products.Commands.Validators;
 using RO.DevTest.Domain.Abstract;
 using RO.DevTest.Infrastructure.IoC;
 using RO.DevTest.Persistence.IoC;
@@ -37,7 +35,6 @@ public class Program
         builder.Services.AddScoped<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
         builder.Services.AddScoped<IValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DeleteProductCommandHandler).Assembly));
-
 
         var app = builder.Build();
 

@@ -1,15 +1,11 @@
 ﻿using FluentValidation;
 
-namespace RO.DevTest.Application.Features.Products.Commands.Validators;
+namespace RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 
-public class UpdateProductCommandValidator : AbstractValidator<UpdateProductsCommand.UpdateProductCommand>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
-    public UpdateProductCommandValidator()
+    public CreateProductCommandValidator()
     {
-        RuleFor(p => p.Id)
-            .NotEmpty()
-            .WithMessage("O ID do produto é obrigatório.");
-
         RuleFor(p => p.Name)
             .NotEmpty()
             .WithMessage("O campo nome é obrigatório.")

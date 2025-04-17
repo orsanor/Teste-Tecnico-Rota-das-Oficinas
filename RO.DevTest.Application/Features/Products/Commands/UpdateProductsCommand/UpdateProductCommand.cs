@@ -4,12 +4,12 @@ using MediatR;
 namespace RO.DevTest.Application.Features.Products.Commands.UpdateProductsCommand
 {
     [method: JsonConstructor]
-    public class UpdateProductCommand(Guid id, string name, decimal price, int quantity, string description) : IRequest<bool>
+    public class UpdateProductCommand(Guid id, string? name, decimal price, int quantity, string? description) : IRequest<UpdateProductResult>
     {
         public Guid Id { get; set; } = id;
-        public string Name { get; set; } = name;
+        public string? Name { get; set; } = name;
         public decimal Price { get; set; } = price;
         public int Quantity { get; set; } = quantity;
-        public string Description { get; set; } = description;
+        public string? Description { get; set; } = description;
     }
 }

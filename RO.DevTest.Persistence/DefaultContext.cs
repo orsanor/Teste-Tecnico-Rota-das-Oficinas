@@ -14,7 +14,7 @@ public class DefaultContext : IdentityDbContext<User>
     {
     }
 
-    public DbSet<Product?> Product { get; set; }
+    public DbSet<Product> Product { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -2,11 +2,10 @@
 
 namespace RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 
-public class CreateProductCommand(string name, int price, int quantity, string description)
-    : IRequest<Guid>
+public class CreateProductCommand : IRequest<CreateProductResult>
 {
-    public string Name { get; set; } = name;
-    public int Price { get; set; } = price;
-    public int Quantity { get; set; } = quantity;
-    public string Description { get; set; } = description;
+    public string? Name { get; set; } = string.Empty;
+    public float Price { get; set; }
+    public int Quantity { get; set; }
+    public string? Description { get; set; } = string.Empty;
 }

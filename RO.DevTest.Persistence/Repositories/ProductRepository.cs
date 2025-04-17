@@ -8,7 +8,7 @@ public class ProductRepository(DefaultContext context) : IProductRepository
 {
     async Task IProductRepository.AddAsync(Product? product)
     {
-        await context.Product.AddAsync(product);
+        if (product != null) await context.Product.AddAsync(product);
         await context.SaveChangesAsync();
     }
 

@@ -7,9 +7,9 @@ namespace RO.DevTest.Application.Features.Products.Commands.UpdateProductsComman
 public class UpdateProductCommandHandler(
     IProductRepository productRepository,
     IValidator<UpdateProductCommand> validator)
-    : IRequestHandler<UpdateProductCommand, bool>
+    : IRequestHandler<UpdateProductCommand, UpdateProductResult>
 {
-    public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -25,11 +25,11 @@ public class UpdateProductCommandHandler(
             throw new KeyNotFoundException($"Produto com ID '{request.Id}' não encontrado.");
 
         product.Name = request.Name;
-        product.Price = request.Price;
+        product.Price = (float)request.Price;
         product.Description = request.Description;
         product.Quantity = request.Quantity;
 
         await productRepository.UpdateAsync(product);
-        return true;
+        return new UpdateProductResult(product);
     }
 }
