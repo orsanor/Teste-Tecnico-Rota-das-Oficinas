@@ -3,10 +3,10 @@
 public class Product
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Description { get; private set; }
-    public decimal Price { get; private set; }
-    public int Quantity { get; private set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
 
     protected Product()
     {
