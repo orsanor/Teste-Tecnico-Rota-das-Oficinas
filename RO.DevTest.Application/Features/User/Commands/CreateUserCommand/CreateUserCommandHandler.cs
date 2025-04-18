@@ -16,9 +16,12 @@ public class CreateUserCommandHandler(IIdentityAbstractor identityAbstractor) : 
         CreateUserCommandValidator validator = new();
         ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if(!validationResult.IsValid) {
-            throw new BadRequestException(validationResult);
+        if (!validationResult.IsValid)
+        {
+            var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+            throw new BadRequestException($"Erro de validação: {errors}");
         }
+
 
         Domain.Entities.User newUser = request.AssignTo();
         IdentityResult userCreationResult = await _identityAbstractor.CreateUserAsync(newUser, request.Password);

@@ -1,13 +1,22 @@
 ﻿using MediatR;
 using RO.DevTest.Domain.Abstract;
 
-namespace RO.DevTest.Application.Features.Products.Commands.DeleteProductsCommand;
-
-public record class DeleteProductCommandHandler(IProductRepository ProductRepository) : IRequestHandler<DeleteProductCommand, Unit>
+namespace RO.DevTest.Application.Features.Products.Commands.DeleteProductsCommand
 {
-    public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+    public record class DeleteProductCommandHandler(IProductRepository ProductRepository) : IRequestHandler<DeleteProductCommand, Unit>
     {
-        await ProductRepository.DeleteAsync(request.Id);
-        return Unit.Value;
+        public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+        {
+            var product = await ProductRepository.GetByIdAsync(request.Id);
+            
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Produto com ID '{request.Id}' não encontrado.");
+            }
+
+            await ProductRepository.DeleteAsync(product);
+            
+            return Unit.Value;
+        }
     }
 }

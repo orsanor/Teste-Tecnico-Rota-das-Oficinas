@@ -34,7 +34,7 @@ public class ProductRepository(DefaultContext context) : IProductRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Product id)
     {
         var product = await context.Product.FindAsync(id);
         if (product != null)

@@ -3,10 +3,13 @@ using RO.DevTest.Application;
 using RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.DeleteProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.UpdateProductsCommand;
+using RO.DevTest.Application.Interfaces;
 using RO.DevTest.Domain.Abstract;
 using RO.DevTest.Infrastructure.IoC;
+using RO.DevTest.Infrastructure.Security;
 using RO.DevTest.Persistence.IoC;
 using RO.DevTest.Persistence.Repositories;
+using RO.DevTest.WebApi.Middlewares;
 
 namespace RO.DevTest.WebApi;
 
@@ -22,6 +25,7 @@ public class Program
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.InjectPersistenceDependencies()
             .InjectInfrastructureDependencies();
+        builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         // Add Mediatr to program
         builder.Services.AddMediatR(cfg =>
@@ -44,6 +48,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseHttpsRedirection();
 
