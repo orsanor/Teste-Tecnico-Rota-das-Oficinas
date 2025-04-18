@@ -57,4 +57,10 @@ public class ProductRepository(DefaultContext context) : IProductRepository
     {
         return (await context.Product.ToListAsync())!;
     }
+    
+    public IQueryable<Product> GetAllQueryable()
+    {
+        return context.Product.AsQueryable();
+    }
+
 }

@@ -1,9 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RO.DevTest.Application.Contracts.Pagination;
 using RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.DeleteProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.UpdateProductsCommand;
 using RO.DevTest.Domain.Abstract;
+using RO.DevTest.Domain.Entities;
 
 namespace RO.DevTest.WebApi.Controllers
 {
@@ -30,11 +33,23 @@ namespace RO.DevTest.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var products = await productRepository.GetAllAsync();
-            return Ok(products);
+            var query = productRepository.GetAllQueryable();
+
+            var totalCount = await query.CountAsync();
+            var products = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new PaginationResponse<Product>(
+                products, totalCount, page, pageSize
+            );
+
+            return Ok(response);
         }
+
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update([FromBody] UpdateProductCommand command, Guid id)
