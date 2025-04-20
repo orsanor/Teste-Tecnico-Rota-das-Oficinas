@@ -21,7 +21,6 @@ namespace RO.DevTest.WebApi.Controllers
                 return BadRequest("Erro ao criar produto.");
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
-
         }
 
 
