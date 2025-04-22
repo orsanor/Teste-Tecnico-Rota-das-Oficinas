@@ -14,7 +14,8 @@ namespace RO.DevTest.Application.Features.Products.Commands.DeleteProductsComman
                 throw new KeyNotFoundException($"Produto com ID '{request.Id}' não encontrado.");
             }
 
-            await ProductRepository.DeleteAsync(product);
+            await ProductRepository.DeleteAsync(product.Id);
+            
             
             return Unit.Value;
         }

@@ -31,9 +31,11 @@ const Register = () => {
       await api.post("/user", form);
       alert("Usuário registrado com sucesso!");
       navigate("/");
-    } catch (error) {
-      setMessage("Erro ao registrar usuário.");
-      console.error(error);
+    } catch(error: any) {
+      const errorMessage =
+        error?.response?.data?.message || "Erro ao registrar usuário.";
+      setMessage(errorMessage);
+      console.error("Erro ao registrar:", error);
     }
   };
 
