@@ -46,6 +46,10 @@ public class IdentityAbstractor : IIdentityAbstractor {
         => await _signInManager.PasswordSignInAsync(user, password, false, false);
 
     public async Task<IdentityResult> DeleteUser(User user) => await _userManager.DeleteAsync(user);
+    public Task UpdateUserAsync(User targetUser)
+    {
+        throw new NotImplementedException();
+    }
 
     public async Task<IdentityResult> AddToRoleAsync(User user, UserRoles role) {
         if(await _roleManager.RoleExistsAsync(role.ToString()) is false) {
