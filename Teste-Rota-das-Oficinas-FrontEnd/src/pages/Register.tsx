@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { RegisterForm } from "@/components/ui/Register";
 
-const Register = () => {
+export default function Register() {
   const [form, setForm] = useState({
     userName: "",
     name: "",
@@ -14,6 +14,11 @@ const Register = () => {
 
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const errorMessagesMap = {
+    "Passwords must have at least one non alphanumeric character.": "A senha deve conter pelo menos um caractere não alfanumérico.",
+    "Passwords must have at least one digit ('0'-'9').": "A senha deve conter pelo menos um dígito ('0'-'9').",
+    "Passwords must have at least one uppercase ('A'-'Z').": "A senha deve conter pelo menos uma letra maiúscula ('A'-'Z').",
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,9 +36,10 @@ const Register = () => {
       await api.post("/user", form);
       alert("Usuário registrado com sucesso!");
       navigate("/");
-    } catch(error: any) {
-      const errorMessage =
-        error?.response?.data?.message || "Erro ao registrar usuário.";
+    } catch (error) {
+      const errorMessages = error?.response?.data?.errors || [];
+      const translatedErrors = errorMessages.map((msg: string) => errorMessagesMap[msg] || msg).join(" ");
+      const errorMessage = translatedErrors;
       setMessage(errorMessage);
       console.error("Erro ao registrar:", error);
     }
@@ -51,8 +57,6 @@ const Register = () => {
         />
       </div>
     </div>
-  
+
   );
 };
-
-export default Register;

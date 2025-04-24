@@ -16,11 +16,11 @@ const Login = () => {
     e.preventDefault();
     try {
       interface LoginResponse {
-        token: string;
+        accessToken: string;
       }
 
       const response = await api.post<LoginResponse>("/auth/login", form);
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.data.accessToken);
       navigate("/HomePage");
     } catch (error) {
       console.error(error);

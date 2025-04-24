@@ -99,7 +99,13 @@ export function RegisterForm({
                 onChange={onChange}
               />
             </div>
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            
+            {error && (
+              <div className="space-y-1">
+                <p className="text-sm text-red-500">{error}</p>
+              </div>
+            )}
+
             <Button
               type="submit"
               className="w-full cursor-pointer hover:bg-blue-600 hover:text-white transition-colors duration-200 hover:scale-[1.02]"
