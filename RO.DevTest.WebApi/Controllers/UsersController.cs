@@ -28,7 +28,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserCommand request)
     {
-        request.Id = new Guid(id); // Assuming the ID from the URL is passed into the command.
+        request.Id = new Guid(id); 
         
         var response = await mediator.Send(request);
         if (response == null)
@@ -39,7 +39,6 @@ public class UsersController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    // DELETE - Delete User
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
