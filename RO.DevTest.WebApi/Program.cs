@@ -1,4 +1,7 @@
+using System.Text;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using RO.DevTest.Application;
 using RO.DevTest.Application.Features.Products.Commands.CreateProductsCommand;
 using RO.DevTest.Application.Features.Products.Commands.DeleteProductsCommand;
@@ -7,6 +10,7 @@ using RO.DevTest.Application.Interfaces;
 using RO.DevTest.Domain.Abstract;
 using RO.DevTest.Infrastructure.IoC;
 using RO.DevTest.Infrastructure.Security;
+using RO.DevTest.Persistence;
 using RO.DevTest.Persistence.IoC;
 using RO.DevTest.Persistence.Repositories;
 using RO.DevTest.WebApi.Middlewares;
@@ -30,7 +34,7 @@ public class Program
                     .AllowCredentials();
             });
         });
-
+        
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -48,6 +52,9 @@ public class Program
             );
         });
 
+        builder.Services.AddAuthorizationBuilder()
+            .AddPolicy("AdminOnly", policy =>
+                policy.RequireRole("Admin"));
         builder.Services.AddScoped<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
         builder.Services.AddScoped<IValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DeleteProductCommandHandler).Assembly));

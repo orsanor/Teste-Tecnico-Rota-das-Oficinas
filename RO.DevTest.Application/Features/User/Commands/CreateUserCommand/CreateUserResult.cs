@@ -1,10 +1,13 @@
-﻿namespace RO.DevTest.Application.Features.User.Commands.CreateUserCommand;
+﻿using RO.DevTest.Domain.Enums;
+
+namespace RO.DevTest.Application.Features.User.Commands.CreateUserCommand;
 
 public record CreateUserResult {
     public string Id { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public UserRoles Role { get; set; }
 
     public CreateUserResult () { }
 
@@ -13,5 +16,6 @@ public record CreateUserResult {
         UserName = user.UserName!;
         Email = user.Email!;
         Name = user.Name!;
+        Role = user.Role;
     }
 }

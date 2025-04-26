@@ -33,6 +33,9 @@ public class CreateUserCommandHandler(IIdentityAbstractor identityAbstractor) : 
         if(!userRoleResult.Succeeded) {
             throw new BadRequestException(userRoleResult);
         }
+        
+        newUser.Role = request.Role;
+        await _identityAbstractor.UpdateUserAsync(newUser);
 
         return new CreateUserResult(newUser);
     }

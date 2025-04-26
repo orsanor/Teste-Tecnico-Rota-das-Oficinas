@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RO.DevTest.Domain.Enums;
 
 namespace RO.DevTest.Domain.Entities;
 
@@ -10,6 +11,8 @@ public class User : IdentityUser {
     /// Name of the user
     /// </summary>
     public string Name { get; set; } = string.Empty;
+
+    public UserRoles Role { get; set; }
 
     public User() : base() { }
 }

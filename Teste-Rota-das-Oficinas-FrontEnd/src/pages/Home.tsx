@@ -14,6 +14,8 @@ import { UserIcon } from "@heroicons/react/outline";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [products, setProducts] = useState<
     {
       id: number;
@@ -38,10 +40,6 @@ export default function Home() {
     description: string;
   }>({ name: "", price: "", quantity: "", description: "" });
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   const fetchProducts = async () => {
     try {
       const res = await api.get("/product?page=1&size=10");
@@ -60,6 +58,7 @@ export default function Home() {
       });
       setNewProduct({ name: "", price: "", quantity: "", description: "" });
       fetchProducts();
+      setOpen(false); 
     }
   };
 
@@ -76,8 +75,6 @@ export default function Home() {
       setEditProduct(productToEdit);
     }
   };
-
-  const navigate = useNavigate();
 
   const goToProfile = () => {
     navigate("/Profile");
@@ -96,6 +93,11 @@ export default function Home() {
     setEditProduct({ name: "", price: "", quantity: "", description: "" });
     fetchProducts();
   };
+
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -121,7 +123,7 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-gray-800">
               Produtos Cadastrados
             </h2>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger>
                 <button className="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500">
                   Cadastre um novo produto

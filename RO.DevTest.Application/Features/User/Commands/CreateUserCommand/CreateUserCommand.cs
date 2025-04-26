@@ -16,6 +16,7 @@ public class CreateUserCommand : IRequest<CreateUserResult> {
             UserName = UserName,
             Email = Email,
             Name = Name,
+            Role = Role 
         };
     }
 }
