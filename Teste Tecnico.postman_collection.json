@@ -270,7 +270,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjM4NWI2MGQ3LWZmNTgtNDU4OC1hZTYxLTQxMmFhYTdhZTVkYiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJvcmFzbm8iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvcnNhbm9AZW1haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NDU0NDc5MzUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJ9.jX_tIgvcolspuqUBmMeFliqpcIiQqssCqtEvRu56sFo",
+									"value": "{{Bearer Token}}",
 									"type": "string"
 								}
 							]
@@ -314,7 +314,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"orasno\",\n    \"password\": \"StrongPass123!\"\n}",
+							"raw": "{\n    \"username\": \"Dev\",\n    \"password\": \"SenhaForte@123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -350,15 +350,6 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"teste\",\n    \"password\": \"StrongPass123!\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{domain-api}}/api/user/{{id}}",
 							"host": [
