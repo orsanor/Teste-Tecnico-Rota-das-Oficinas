@@ -43,7 +43,7 @@ public class Program
             .InjectInfrastructureDependencies();
         builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        // Add Mediatr to program
+        // Add Mediatr to the program
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(
