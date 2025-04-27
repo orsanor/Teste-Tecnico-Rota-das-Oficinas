@@ -8,12 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, LogOut } from "lucide-react";
 import api from "../../services/api";
 import { UserIcon } from "@heroicons/react/outline";
 import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function HomePage() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState<
@@ -43,7 +43,7 @@ export default function Home() {
   const fetchProducts = async () => {
     try {
       const res = await api.get("/product?page=1&size=10");
-      setProducts(res.data.data || []);
+      setProducts((res.data as { data: { id: number; name: string; price: number; quantity: number; description: string; }[] }).data || []);
     } catch (error) {
       console.error("Erro ao buscar produtos:", error);
     }
@@ -58,7 +58,7 @@ export default function Home() {
       });
       setNewProduct({ name: "", price: "", quantity: "", description: "" });
       fetchProducts();
-      setOpen(false); 
+      setOpen(false);
     }
   };
 
@@ -71,13 +71,19 @@ export default function Home() {
   const startEditing = (id: number) => {
     const productToEdit = products.find((product) => product.id === id);
     if (productToEdit) {
-      setEditingIndex(id);
-      setEditProduct(productToEdit);
+      setEditingIndex(id as unknown as null);
+      setEditProduct({
+        id: productToEdit.id,
+        name: productToEdit.name,
+        price: productToEdit.price.toString(),
+        quantity: productToEdit.quantity.toString(),
+        description: productToEdit.description
+      });
     }
   };
 
   const goToProfile = () => {
-    navigate("/Profile");
+    navigate("/Users");
   };
 
   const saveEdit = async () => {
@@ -87,7 +93,7 @@ export default function Home() {
       quantity: Number(editProduct.quantity),
     });
     const updated = [...products];
-    updated[products.findIndex((p) => p.id === editingIndex)] = res.data;
+    updated[products.findIndex((p) => p.id === editingIndex)] = res.data as { id: number; name: string; price: number; quantity: number; description: string; };
     setProducts(updated);
     setEditingIndex(null);
     setEditProduct({ name: "", price: "", quantity: "", description: "" });
@@ -99,6 +105,11 @@ export default function Home() {
     fetchProducts();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <main className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow p-4 mb-6">
@@ -106,14 +117,24 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-800">
             Gerenciador de Produtos
           </h1>
-          <button
-            onClick={goToProfile}
-            className="flex items-center space-x-2 text-gray-800 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
-          >
-            <div className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-blue-200">
-              <UserIcon className="h-6 w-6 text-gray-800" />
-            </div>
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={goToProfile}
+              className="flex items-center space-x-2 text-gray-800 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+            >
+              <div className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-blue-200">
+                <UserIcon className="h-6 w-6 text-gray-800" />
+              </div>
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-2 text-gray-800 hover:text-red-600 transition-colors duration-200 cursor-pointer"
+            >
+              <div className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-red-200">
+                <LogOut className="h-6 w-6 text-gray-800" />
+              </div>
+            </button>
+          </div>
         </div>
       </nav>
 

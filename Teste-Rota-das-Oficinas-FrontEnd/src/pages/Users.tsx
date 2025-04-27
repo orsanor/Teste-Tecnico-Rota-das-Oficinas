@@ -40,7 +40,7 @@ export default function Profile() {
   };
 
   const goToHomePage = () => {
-    navigate("/home");
+    navigate("/HomePage");
   };
 
   return (

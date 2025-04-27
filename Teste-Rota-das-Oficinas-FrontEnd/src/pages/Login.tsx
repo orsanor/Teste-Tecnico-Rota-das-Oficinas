@@ -21,7 +21,7 @@ const Login = () => {
 
       const response = await api.post<LoginResponse>("/auth/login", form);
       localStorage.setItem("token", response.data.accessToken);
-      navigate("/Home");
+      navigate("/HomePage");
     } catch (error) {
       console.error(error);
       setMessage("Credenciais inválidas. Tente novamente.");

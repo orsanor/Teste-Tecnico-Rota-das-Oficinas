@@ -20,12 +20,7 @@ namespace RO.DevTest.Application.Features.User.Commands.DeleteUserCommand
             var user = await identity.FindUserByIdAsync(request.Id.ToString());
             if (user == null)
                 throw new BadRequestException("Usuário não encontrado");
-
-            var isSelf = currentUserId == request.Id.ToString();
-            var isAdmin = currentUserRole == nameof(UserRoles.Admin);
-
-            if (!isAdmin && !isSelf)
-                throw new BadRequestException("Você não tem permissão para excluir este usuário");
+            
             
             var result = await identity.DeleteUserAsync(user);
             if (!result.Succeeded)

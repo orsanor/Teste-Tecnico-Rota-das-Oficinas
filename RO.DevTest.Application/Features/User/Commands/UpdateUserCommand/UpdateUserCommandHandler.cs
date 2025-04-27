@@ -15,26 +15,21 @@ public class UpdateUserCommandHandler(IIdentityAbstractor identity) : IRequestHa
             throw new BadRequestException("Usuário não encontrado");
 
         bool isSelf = request.RequestingUserId == request.Id.ToString();
-        bool isAdmin = request.RequestingUserRole == nameof(UserRoles.Admin);
 
-        if (!isAdmin && !isSelf)
-            throw new BadRequestException("Você não tem permissão para editar este usuário");
 
         targetUser.Name = request.Name;
         targetUser.Email = request.Email;
-        
-        if (isAdmin && !string.IsNullOrWhiteSpace(request.Role))
-        {
-            if (!Enum.TryParse<UserRoles>(request.Role, true, out var parsedRole))
-            {
-                throw new BadRequestException("Função informada é inválida.");
-            }
 
-            IdentityResult roleResult = await identity.AddToRoleAsync(targetUser, parsedRole);
-            if (!roleResult.Succeeded)
-            {
-                throw new BadRequestException(roleResult);
-            }
+
+        if (!Enum.TryParse<UserRoles>(request.Role, true, out var parsedRole))
+        {
+            throw new BadRequestException("Função informada é inválida.");
+        }
+
+        IdentityResult roleResult = await identity.AddToRoleAsync(targetUser, parsedRole);
+        if (!roleResult.Succeeded)
+        {
+            throw new BadRequestException(roleResult);
         }
 
         await identity.UpdateUserAsync(targetUser);
